@@ -75,9 +75,9 @@
   "Display `str' at the right-most side of the mode-line."
   (when (s-blank-str? str) (setq str ""))
 
-  (string-join
-   (list (lml--mode-line-fill (length str) face)
-         str)))
+  (s-join ""
+          (list (lml--mode-line-fill (length str) face)
+                str)))
 
 (defun lml--mode-line-position-string ()
   "String for position part of the mode-line. If visition a `pdf'
@@ -91,7 +91,7 @@ buffer, and having `pdf-tools', use pdf pages and position."
 (defun lml--mode-line-active-minor-modes-string ()
   "String of active minor modes for the current buffer."
   (->> (format-mode-line minor-mode-alist)
-       (split-string)
+       (s-split " ")
        (-map #'s-trim)
        (-remove #'(lambda (s) (< (length s) 2)))
        (s-join " ")))
