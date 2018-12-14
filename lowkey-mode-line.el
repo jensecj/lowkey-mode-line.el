@@ -1,11 +1,12 @@
-;;; lowkey-mode-line.el --- Toggling lowkey-mode-line state of buffers
+;;; lowkey-mode-line.el --- Simple, lowkey mode-line replacement
 
 ;; Copyright (C) 2018 Jens Christian Jensen
 
 ;; Author: Jens Christian Jensen <jensecj@gmail.com>
-;; Keywords: lowkey-mode-line
-;; Package-Version: 20181214
 ;; Version: 0.2
+;; Package-Version: 20181214
+;; Package-Requires: ((emacs "25.1") (dash "2.14.1") (s "1.12.0"))
+;; Keywords: mode-line
 
 ;; This program is free software; you can redistribute it and/or modify
 ;; it under the terms of the GNU General Public License as published by
@@ -25,6 +26,9 @@
 ;; Minimal mode-line replacement, with utility functions for configuration.
 
 ;;; Code:
+
+(require 's)
+(require 'dash)
 
 (defface lml-buffer-name-face
   '((t (:background "grey20")))
