@@ -57,15 +57,11 @@
 
 (cl-defun lml--mode-line-string (str &key face pad-left pad-right pad)
   "Create a string suitable for displaying in mode-line."
-  (when pad-left
-    (setq str (string-join (list (s-repeat pad-left " ") str))))
-  (when pad-right
-    (setq str (string-join (list str (s-repeat pad-right " ")))))
-  (when pad
-    (setq str (string-join (list (s-repeat pad " ") str (s-repeat pad " ")))))
-  (if face
-      (propertize str 'face face)
-    (propertize str)))
+  (when pad-left (setq str (s-join "" (list (s-repeat pad-left " ") str))))
+  (when pad-right (setq str (s-join "" (list str (s-repeat pad-right " ")))))
+  (when pad (setq str (s-join "" (list (s-repeat pad " ") str (s-repeat pad " ")))))
+
+  (propertize str 'face face))
 
 (defun lml--mode-line-fill (reserve &optional face)
   "Fill an area of `reserve' in the mode-line."
