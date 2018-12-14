@@ -65,7 +65,9 @@
 
 (defun lml--mode-line-fill (reserve &optional face)
   "Fill an area of `reserve' in the mode-line."
-  (propertize " " 'display `((space :align-to (- (+ right right-fringe right-margin) ,reserve))) 'face face))
+  (propertize " " 'display
+              `((space :align-to (- (+ right right-fringe right-margin) ,reserve)))
+              'face face))
 
 (defun lml--mode-line-rightmost (str &optional face)
   "Display `str' at the right-most side of the mode-line."
@@ -86,6 +88,8 @@ buffer, and having `pdf-tools', use pdf pages and position."
 
 (defun lml--mode-line-active-minor-modes-string ()
   "String of active minor modes for the current buffer."
+  ;; propertizing `minor-mode-alist' is wonky, and leaves extra spaces a lot of
+  ;; places, fix it by doing it manually.
   (->> (format-mode-line minor-mode-alist)
        (s-split " ")
        (-map #'s-trim)
@@ -112,7 +116,9 @@ buffer, and having `pdf-tools', use pdf pages and position."
 (defun lowkey-mode-line-enable ()
   "Enable the lowkey-mode-line."
   (interactive)
-  (setq lml--default-mode-line-format mode-line-format)
+  (when (not lml--default-mode-line-format)
+    (setq lml--default-mode-line-format mode-line-format))
+
   (setq-default
    mode-line-format
    '("%e"
