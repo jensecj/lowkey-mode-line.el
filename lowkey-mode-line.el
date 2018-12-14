@@ -104,10 +104,15 @@ buffer, and having `pdf-tools', use pdf pages and position."
            (state (vc-state this-file)))
       (format "%s %s (%s)" backend branch state))))
 
+(defvar lml--default-mode-line-format nil
+  "Default value, before enabling `lowkey-mode-line', used for
+  resetting.")
+
 ;;;###autoload
 (defun lowkey-mode-line-enable ()
-  (interactive)
   "Enable the lowkey-mode-line."
+  (interactive)
+  (setq lml--default-mode-line-format mode-line-format)
   (setq-default
    mode-line-format
    '("%e"
@@ -127,5 +132,11 @@ buffer, and having `pdf-tools', use pdf pages and position."
              (lml--mode-line-string (lml--mode-line-vc-string)
                                     :face 'lml-vc-face :pad 2)
              'lml-major-mode-face)))))
+
+;;;###autoload
+(defun lowkey-mode-line-disable ()
+  "Reset the mode-line."
+  (interactive)
+  (setq-default mode-line-format lml--default-mode-line-format))
 
 (provide 'lowkey-mode-line)
