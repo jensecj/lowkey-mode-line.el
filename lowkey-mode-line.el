@@ -251,22 +251,11 @@ position."
   (setq-default
    mode-line-format
    '("%e"
-     (:eval (lml--mode-line-string (buffer-name)
-                                   :face 'lml-buffer-name-face
-                                   :pad-left 2 :pad-right 5))
-     (:eval (lml--mode-line-string
-             (lml--mode-line-position-string)
-             :face 'lml-position-face :pad 2))
-     (:eval (lml--mode-line-string
-             (format "%s" major-mode)
-             :face 'lml-major-mode-face :pad 2))
-     (:eval (lml--mode-line-string
-             (lml--mode-line-active-minor-modes-string)
-             :face 'lml-minor-modes-face :pad 1))
-     (:eval (lml--mode-line-rightmost
-             (lml--mode-line-string (lml--mode-line-vc-string)
-                                    :face 'lml-vc-face :pad 2)
-             'lml-major-mode-face)))))
+     (:eval (lml-buffer))
+     (:eval (lml-position))
+     (:eval (lml-major-mode))
+     (:eval (lml-minor-modes))
+     (:eval (lml-vc)))))
 
 ;;;###autoload
 (defun lowkey-mode-line-disable ()
