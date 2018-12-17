@@ -133,6 +133,30 @@
 (defun lml--mode-line-position-string ()
   "String for position part of the mode-line. If visition a `pdf'
 buffer, and having `pdf-tools', use pdf pages and position."
+(defun lml--record-selected-window ()
+  "Store the currently selected window every time we change it."
+  (setq lml--selected-window (selected-window)))
+(add-hook 'post-command-hook 'lml--record-selected-window)
+
+(defun lml--update-all ()
+  "Force update mode-lines when buffers change."
+  (force-mode-line-update t))
+(add-hook 'buffer-list-update-hook 'lml--update-all)
+
+(defun lml--in-selected-window-p ()
+  "Return whether the context of this function call is from the
+currently selected window."
+  (eq (selected-window) lml--selected-window))
+
+(defun lml--active-or-inactive-face (active-face inactive-face)
+  "Pick a face based on whether the mode-line is active or
+inactive."
+  (if (lml--in-selected-window-p)
+      active-face
+    (if (facep inactive-face)
+        inactive-face
+      nil)))
+
   (if (and (fboundp 'pdf-util-pdf-buffer-p)
            (fboundp 'pdf-view-current-page)
            (pdf-util-pdf-buffer-p))
