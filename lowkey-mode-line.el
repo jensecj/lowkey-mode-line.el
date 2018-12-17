@@ -130,9 +130,6 @@
           (list (lml--mode-line-fill (length str) face)
                 str)))
 
-(defun lml--mode-line-position-string ()
-  "String for position part of the mode-line. If visition a `pdf'
-buffer, and having `pdf-tools', use pdf pages and position."
 (defun lml--record-selected-window ()
   "Store the currently selected window every time we change it."
   (setq lml--selected-window (selected-window)))
@@ -157,13 +154,55 @@ inactive."
         inactive-face
       nil)))
 
+;;;;;;;;;;;;;;;;;;;;;
+;; mode line parts ;;
+;;;;;;;;;;;;;;;;;;;;;
+
+(defun lml--buffer-string ()
+  "String for the `buffer' part of the mode-line."
+  (buffer-name))
+
+(defun lml-buffer ()
+  "`Buffer' part of the mode-line."
+  (lml--mode-line-string
+   (lml--buffer-string)
+   :face (lml--active-or-inactive-face
+          'lml-buffer-face 'lml-buffer-face-inactive)
+   :pad-left 2 :pad-right 5))
+
+(defun lml--position-string ()
+  "String for `position' part of the mode-line. If visition a
+`pdf'-buffer, and having `pdf-tools', use pdf pages as
+position."
   (if (and (fboundp 'pdf-util-pdf-buffer-p)
            (fboundp 'pdf-view-current-page)
            (pdf-util-pdf-buffer-p))
       (format "%s / %s " (pdf-view-current-page) (pdf-info-number-of-pages))
     "(%p) %4l :%3c"))
 
-(defun lml--mode-line-active-minor-modes-string ()
+(defun lml-position ()
+  "`Position' part of the mode-line"
+  (lml--mode-line-string
+   (lml--position-string)
+   :face (if (lml--in-selected-window-p)
+             'lml-position-face
+           'lml-position-face-inactive)
+   :pad 2))
+
+(defun lml--major-mode-string ()
+  "String for the `major-mode' part of the mode-line."
+  (format "%s" major-mode))
+
+(defun lml-major-mode ()
+  "`Major-mode' part of the mode-line"
+  (lml--mode-line-string
+   (lml--major-mode-string)
+   :face (if (lml--in-selected-window-p)
+             'lml-major-mode-face
+           'lml-major-mode-face-inactive)
+   :pad 2))
+
+(defun lml--minor-modes-string ()
   "String of active minor modes for the current buffer."
   ;; propertizing `minor-mode-alist' is wonky, and leaves extra spaces a lot of
   ;; places, fix it by doing it manually.
@@ -173,7 +212,16 @@ inactive."
        (-remove #'(lambda (s) (< (length s) 2)))
        (s-join " ")))
 
-(defun lml--mode-line-vc-string ()
+(defun lml-minor-modes ()
+  "`Minor-modes' part of the mode-line."
+  (lml--mode-line-string
+   (lml--minor-modes-string)
+   :face (if (lml--in-selected-window-p)
+             'lml-minor-modes-face
+           'lml-minor-modes-face-inactive)
+   :pad 1))
+
+(defun lml--vc-string ()
   "String with version control info for the current file, if any."
   (if (not vc-mode)
       ""
@@ -185,9 +233,13 @@ inactive."
            (state (vc-state this-file)))
       (format "%s %s (%s)" backend branch state))))
 
-(defvar lml--default-mode-line-format nil
-  "Default value, before enabling `lowkey-mode-line', used for
-  resetting.")
+(defun lml-vc ()
+  "`Version-control' part of the mode-line."
+  (let* ((vc-string (lml--vc-string))
+         (vc-face (lml--active-or-inactive-face 'lml-vc-face 'lml-vc-face-inactive))
+         (vc-prop (lml--mode-line-string vc-string :face vc-face :pad 2))
+         (filler-face (lml--active-or-inactive-face 'lml-filler-face 'lml-filler-face-inactive)))
+    (lml--mode-line-rightmost vc-prop filler-face)))
 
 ;;;###autoload
 (defun lowkey-mode-line-enable ()
