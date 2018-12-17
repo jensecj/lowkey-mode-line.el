@@ -30,30 +30,83 @@
 (require 's)
 (require 'dash)
 
-(defface lml-buffer-name-face
-  '((t (:background "grey20")))
+(defface lml-default-face
+  '((((class color) (min-colors 89))
+     (:box nil))
+    (t :inverse-video t))
+  "Face used as parent for other `lowkey-mode-line' faces."
+  :group 'lowkey-mode-line)
+
+(defface lml-default-face-inactive
+  '((((class color) (min-colors 89))
+     (:box nil))
+    (t :inverse-video t))
+  "Face used as parent for other `lowkey-mode-line' faces."
+  :group 'lowkey-mode-line)
+
+(defface lml-buffer-face
+  '((t (:inherit lml-default-face)))
   "Face used for the `buffer-name' part of the mode-line."
   :group 'lowkey-mode-line)
 
+(defface lml-buffer-face-inactive
+  '((t (:inherit lml-default-face-inactive)))
+  "Inactive variant of `lml-buffer-face'"
+  :group 'lowkey-mode-line)
+
 (defface lml-position-face
-  '((t (:background "grey25")))
+  '((t (:inherit lml-default-face)))
   "Face used for the `position' part of the mode-line."
   :group 'lowkey-mode-line)
 
+(defface lml-position-face-inactive
+  '((t (:inherit lml-default-face-inactive)))
+  "Inactive variant of `lml-position-face'"
+  :group 'lowkey-mode-line)
+
 (defface lml-major-mode-face
-  '((t (:background "grey30")))
+  '((t (:inherit lml-default-face)))
   "Face used for the `major-mode' part of the mode-line."
   :group 'lowkey-mode-line)
 
+(defface lml-major-mode-face-inactive
+  '((t (:inherit lml-default-face-inactive)))
+  "Inactive variant of `lml-major-mode-face'"
+  :group 'lowkey-mode-line)
+
 (defface lml-minor-modes-face
-  '((t (:background "grey30")))
+  '((t (:inherit lml-default-face)))
   "Face used for the `minor-modes' part of the mode-line."
   :group 'lowkey-mode-line)
 
+(defface lml-minor-modes-face-inactive
+  '((t (:inherit lml-default-face-inactive)))
+  "Inactive variant of `lml-minor-modes-face'"
+  :group 'lowkey-mode-line)
+
+(defface lml-filler-face
+  '((t (:inherit lml-default-face)))
+  "Face used for the filler part of the mode-line."
+  :group 'lowkey-mode-line)
+
+(defface lml-filler-face-inactive
+  '((t (:inherit lml-default-face-inactive)))
+  "Inactive variant of `lml-filler-face'"
+  :group 'lowkey-mode-line)
+
 (defface lml-vc-face
-  '((t (:background "grey25")))
+  '((t (:inherit lml-default-face)))
   "Face used for the `version-control' part of the mode-line."
   :group 'lowkey-mode-line)
+
+(defface lml-vc-face-inactive
+  '((t (:inherit lml-default-face-inactive)))
+  "Inactive variant of `lml-vc-face'"
+  :group 'lowkey-mode-line)
+
+(defvar lml--default-mode-line-format nil
+  "Default value, before enabling `lowkey-mode-line', used for
+  resetting.")
 
 (cl-defun lml--mode-line-string (str &key face pad-left pad-right pad)
   "Create a string suitable for displaying in mode-line."
