@@ -3,8 +3,8 @@
 ;; Copyright (C) 2018 Jens Christian Jensen
 
 ;; Author: Jens Christian Jensen <jensecj@gmail.com>
-;; Version: 0.2
-;; Package-Version: 20181214
+;; Version: 0.3
+;; Package-Version: 20181217
 ;; Package-Requires: ((emacs "25.1") (dash "2.14.1") (s "1.12.0"))
 ;; Keywords: mode-line
 
@@ -108,12 +108,15 @@
   "Default value, before enabling `lowkey-mode-line', used for
   resetting.")
 
+;;;;;;;;;;;;;;;;;;;;;;;
+;; utility functions ;;
+;;;;;;;;;;;;;;;;;;;;;;;
+
 (cl-defun lml--mode-line-string (str &key face pad-left pad-right pad)
   "Create a string suitable for displaying in mode-line."
   (when pad-left (setq str (s-join "" (list (s-repeat pad-left " ") str))))
   (when pad-right (setq str (s-join "" (list str (s-repeat pad-right " ")))))
   (when pad (setq str (s-join "" (list (s-repeat pad " ") str (s-repeat pad " ")))))
-
   (propertize str 'face face))
 
 (defun lml--mode-line-fill (reserve &optional face)
@@ -152,7 +155,7 @@ inactive."
       active-face
     (if (facep inactive-face)
         inactive-face
-      nil)))
+      active-face)))
 
 ;;;;;;;;;;;;;;;;;;;;;
 ;; mode line parts ;;
