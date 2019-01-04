@@ -255,7 +255,10 @@ position."
      (:eval (lml-position))
      (:eval (lml-major-mode))
      (:eval (lml-minor-modes))
-     (:eval (lml-vc)))))
+     (:eval (lml-vc))))
+
+  (lml--record-selected-window)
+  (lml--update-all))
 
 ;;;###autoload
 (defun lowkey-mode-line-disable ()
