@@ -136,12 +136,10 @@
 (defun lml--record-selected-window ()
   "Store the currently selected window every time we change it."
   (setq lml--selected-window (selected-window)))
-(add-hook 'post-command-hook 'lml--record-selected-window)
 
 (defun lml--update-all ()
   "Force update mode-lines when buffers change."
   (force-mode-line-update t))
-(add-hook 'buffer-list-update-hook 'lml--update-all)
 
 (defun lml--in-selected-window-p ()
   "Return whether the context of this function call is from the
@@ -258,12 +256,17 @@ position."
      (:eval (lml-vc))))
 
   (lml--record-selected-window)
-  (lml--update-all))
+  (lml--update-all)
+
+  (add-hook 'post-command-hook 'lml--record-selected-window)
+  (add-hook 'buffer-list-update-hook 'lml--update-all))
 
 ;;;###autoload
 (defun lowkey-mode-line-disable ()
   "Reset the mode-line."
   (interactive)
+  (remove-hook 'post-command-hook 'lml--record-selected-window)
+  (remove-hook 'buffer-list-update-hook 'lml--update-all)
   (setq-default mode-line-format lml--default-mode-line-format))
 
 (provide 'lowkey-mode-line)
