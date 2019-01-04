@@ -187,9 +187,8 @@ position."
   "`Position' part of the mode-line"
   (lml--mode-line-string
    (lml--position-string)
-   :face (if (lml--in-selected-window-p)
-             'lml-position-face
-           'lml-position-face-inactive)
+   :face (lml--active-or-inactive-face
+          'lml-position-face 'lml-position-face-inactive)
    :pad 2))
 
 (defun lml--major-mode-string ()
@@ -200,9 +199,8 @@ position."
   "`Major-mode' part of the mode-line"
   (lml--mode-line-string
    (lml--major-mode-string)
-   :face (if (lml--in-selected-window-p)
-             'lml-major-mode-face
-           'lml-major-mode-face-inactive)
+   :face (lml--active-or-inactive-face
+          'lml-major-mode-face 'lml-major-mode-face-inactive)
    :pad 2))
 
 (defun lml--minor-modes-string ()
@@ -219,9 +217,8 @@ position."
   "`Minor-modes' part of the mode-line."
   (lml--mode-line-string
    (lml--minor-modes-string)
-   :face (if (lml--in-selected-window-p)
-             'lml-minor-modes-face
-           'lml-minor-modes-face-inactive)
+   :face (lml--active-or-inactive-face
+          'lml-minor-modes-face 'lml-minor-modes-face-inactive)
    :pad 1))
 
 (defun lml--vc-string ()
