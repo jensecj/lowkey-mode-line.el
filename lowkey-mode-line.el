@@ -3,8 +3,8 @@
 ;; Copyright (C) 2018 Jens Christian Jensen
 
 ;; Author: Jens Christian Jensen <jensecj@gmail.com>
-;; Version: 0.3
-;; Package-Version: 20181217
+;; Version: 0.4.0
+;; Package-Version: 20190104
 ;; Package-Requires: ((emacs "25.1") (dash "2.14.1") (s "1.12.0"))
 ;; Keywords: mode-line
 
