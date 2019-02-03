@@ -1,6 +1,6 @@
 ;;; lowkey-mode-line.el --- Simple, lowkey mode-line replacement
 
-;; Copyright (C) 2018 Jens Christian Jensen
+;; Copyright (C) 2019 Jens Christian Jensen
 
 ;; Author: Jens Christian Jensen <jensecj@gmail.com>
 ;; Version: 0.4.0
