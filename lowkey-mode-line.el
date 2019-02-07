@@ -172,7 +172,8 @@ inactive."
    (lml--buffer-string)
    :face (lml--active-or-inactive-face
           'lml-buffer-face 'lml-buffer-face-inactive)
-   :pad-left 2 :pad-right 5))
+   :pad-left 2 :pad-right 3))
+
 (defun lml-narrowed ()
   "String indicator for if the buffer is narrowed."
   (lml--mode-line-string
