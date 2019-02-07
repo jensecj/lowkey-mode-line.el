@@ -161,7 +161,10 @@ inactive."
 
 (defun lml--buffer-string ()
   "String for the `buffer' part of the mode-line."
-  (buffer-name))
+  (cond
+   (buffer-read-only (format "[%s]" (buffer-name)))
+   ((buffer-modified-p) (format "*%s" (buffer-name)))
+   (t (buffer-name))))
 
 (defun lml-buffer ()
   "`Buffer' part of the mode-line."
