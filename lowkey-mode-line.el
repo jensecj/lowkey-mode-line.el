@@ -173,6 +173,12 @@ inactive."
    :face (lml--active-or-inactive-face
           'lml-buffer-face 'lml-buffer-face-inactive)
    :pad-left 2 :pad-right 5))
+(defun lml-narrowed ()
+  "String indicator for if the buffer is narrowed."
+  (lml--mode-line-string
+   (if (buffer-narrowed-p) "<narrow>" "")
+   :face (lml--active-or-inactive-face
+          'lml-buffer-face 'lml-buffer-face-inactive)))
 
 (defun lml--position-string ()
   "String for `position' part of the mode-line. If visition a
@@ -253,6 +259,7 @@ position."
    mode-line-format
    '("%e"
      (:eval (lml-buffer))
+     (:eval (lml-narrowed))
      (:eval (lml-position))
      (:eval (lml-major-mode))
      (:eval (lml-minor-modes))
