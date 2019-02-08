@@ -163,6 +163,7 @@ inactive."
   "String for the `buffer' part of the mode-line."
   (-as->
    (buffer-name) b
+   (if (< (window-width) 100) (s-reverse (s-truncate (/ (window-width) 3) (s-reverse b))) b)
    (if buffer-read-only (format "[%s]" b) b)
    (if (buffer-modified-p) (format "*%s" b) b)))
 
