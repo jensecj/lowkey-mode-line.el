@@ -1,4 +1,4 @@
-;;; lowkey-mode-line.el --- Simple, lowkey mode-line replacement
+;;; lowkey-mode-line.el --- Simple, lowkey mode-line replacement -*- lexical-binding: t; -*-
 
 ;; Copyright (C) 2019 Jens Christian Jensen
 
