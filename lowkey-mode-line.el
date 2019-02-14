@@ -261,6 +261,7 @@ position."
    mode-line-format
    '("%e"
      (:eval (lml-buffer))
+     (if (boundp 'spinner) spinner--mode-line-construct "")
      (:eval (lml-narrowed))
      (:eval (lml-position))
      (:eval (lml-major-mode))
