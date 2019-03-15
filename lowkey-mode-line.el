@@ -161,11 +161,18 @@ inactive."
 
 (defun lml--buffer-string ()
   "String for the `buffer' part of the mode-line."
-  (-as->
-   (buffer-name) b
-   (if (< (window-width) 100) (s-reverse (s-truncate (/ (window-width) 3) (s-reverse b))) b)
-   (if buffer-read-only (format "[%s]" b) b)
-   (if (buffer-modified-p) (format "*%s" b) b)))
+  (let ((b (buffer-name)))
+    (when (< (window-width) 100)
+      (setq b (s-reverse (s-truncate (/ (window-width) 3) (s-reverse b)))) b)
+
+    (unless (and (s-starts-with-p "*" b) (s-ends-with-p "*" b))
+      (when (buffer-modified-p)
+        (setq b (format "*%s" b))))
+
+    (when buffer-read-only
+      (setq b (format "[%s]" b)))
+
+    b))
 
 (defun lml-buffer ()
   "`Buffer' part of the mode-line."
