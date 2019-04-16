@@ -162,9 +162,13 @@ inactive."
 (defun lml--buffer-string ()
   "String for the `buffer' part of the mode-line."
   (let ((b (buffer-name)))
-    (when (< (window-width) 100)
-      (setq b (s-reverse (s-truncate (/ (window-width) 3) (s-reverse b)))) b)
+    ;; truncate buffer-names if window is small
+    (when (and (< (window-width) 100)
+               (> (length b) (/ (window-width) 3)))
+      (setq b (format "…%s"
+                      (substring b (- (length b) (/ (window-width) 3))))) b)
 
+    ;; don't indicate if special buffers are dirty
     (unless (and (s-starts-with-p "*" b) (s-ends-with-p "*" b))
       (when (buffer-modified-p)
         (setq b (format "*%s" b))))
