@@ -30,6 +30,10 @@
 (require 's)
 (require 'dash)
 
+(require 'pdf-tools)
+(require 'pdf-view)
+(require 'pdf-info)
+
 (defface lml-default-face
   '((((class color) (min-colors 89))
      (:box nil))
@@ -197,11 +201,16 @@ inactive."
   "String for `position' part of the mode-line. If visition a
 `pdf'-buffer, and having `pdf-tools', use pdf pages as
 position."
-  (if (and (fboundp 'pdf-util-pdf-buffer-p)
-           (fboundp 'pdf-view-current-page)
+  (if (and (fboundp #'pdf-util-pdf-buffer-p)
+           (fboundp #'pdf-view-current-page)
            (pdf-util-pdf-buffer-p))
       (format "%s / %s " (pdf-view-current-page) (pdf-info-number-of-pages))
-    "(%p) %4l :%3c"))
+    (let ((percentage "(%p)")
+          (this-line "%4l")
+          ;; (last-line (window-buffer-height (selected-window)))
+          (last-line 0)
+          (column "%3c"))
+      (format "%s %s :%s" percentage this-line column))))
 
 (defun lml-position ()
   "`Position' part of the mode-line"
