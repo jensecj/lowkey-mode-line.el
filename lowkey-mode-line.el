@@ -197,6 +197,16 @@ inactive."
    :face (lml--active-or-inactive-face
           'lml-buffer-face 'lml-buffer-face-inactive)))
 
+(defun lml-remote ()
+  "String indicator for if the buffer is narrowed."
+  (lml--mode-line-string
+   (if-let ((file (buffer-file-name))
+            (remote? (file-remote-p (buffer-file-name))))
+       "<remote>"
+     "")
+   :face (lml--active-or-inactive-face
+          'lml-buffer-face 'lml-buffer-face-inactive)))
+
 (defun lml--position-string ()
   "String for `position' part of the mode-line. If visition a
 `pdf'-buffer, and having `pdf-tools', use pdf pages as
@@ -283,6 +293,7 @@ position."
      (:eval (lml-buffer))
      (if (boundp 'spinner) spinner--mode-line-construct "")
      (:eval (lml-narrowed))
+     (:eval (lml-remote))
      (:eval (lml-position))
      (:eval (lml-major-mode))
      (:eval (lml-minor-modes))
