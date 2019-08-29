@@ -232,7 +232,7 @@ position."
 
 (defun lml--major-mode-string ()
   "String for the `major-mode' part of the mode-line."
-  (format "%s" major-mode))
+  (s-replace "-mode" "" (format "%s" major-mode)))
 
 (defun lml-major-mode ()
   "`Major-mode' part of the mode-line"
