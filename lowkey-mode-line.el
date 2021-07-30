@@ -163,8 +163,10 @@ inactive."
 
     ;; don't indicate if special buffers are dirty
     (unless (and (s-starts-with-p "*" b) (s-ends-with-p "*" b))
-      (when (buffer-modified-p)
-        (setq b (format "*%s" b))))
+      ;; HACK: find a workaround that works for all modes
+      (unless (eq major-mode 'erc-mode)
+        (when (buffer-modified-p)
+          (setq b (format "*%s" b)))))
 
     (when buffer-read-only
       (setq b (format "[%s]" b)))
