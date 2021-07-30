@@ -219,20 +219,35 @@ inactive."
               )
     (format "%s  %s  |  %s  %s"
             "%l" "%3c" (point) "(%p)")))
+
+(defun lml--pdf-p ()
+  (and (fboundp #'pdf-util-pdf-buffer-p)
+       (fboundp #'pdf-view-current-page)
+       (pdf-util-pdf-buffer-p)))
+
+(defun lml--position-pdf ()
+  (format "%s / %s " (pdf-view-current-page) (pdf-info-number-of-pages)))
+
+(defun lml--notmuch-show-p ()
+  (eq major-mode 'notmuch-show-mode))
+
+(defun lml--position-notmuch-show ()
+  (let* ((this-id (notmuch-show-get-message-id))
+         (all-ids (reverse (notmuch-show-get-messages-ids)))
+         (idx (1+ (-elem-index this-id all-ids))))
+    (concat (format "%s/%s" idx (length all-ids))
+            "  |  "
+            (lml--position-default))))
+
 (defun lml--position-string ()
   "String for `position' part of the mode-line. If visition a
 `pdf'-buffer, and having `pdf-tools', use pdf pages as
 position."
-  (if (and (fboundp #'pdf-util-pdf-buffer-p)
-           (fboundp #'pdf-view-current-page)
-           (pdf-util-pdf-buffer-p))
-      (format "%s / %s " (pdf-view-current-page) (pdf-info-number-of-pages))
-    (let ((percentage "(%p)")
-          (this-line "%4l")
-          ;; (last-line (window-buffer-height (selected-window)))
-          (last-line 0)
-          (column "%3c"))
-      (format "%s %s :%s" percentage this-line column))))
+  ;; TODO: dont break if pdf-tools is not loaded
+  (cond
+   ((lml--pdf-p) (lml--position-pdf))
+   ((lml--notmuch-show-p) (lml--position-notmuch-show))
+   (t (lml--position-default))))
 
 (defun lml-position ()
   "`Position' part of the mode-line"
