@@ -259,7 +259,10 @@ position."
 
 (defun lml--major-mode-string ()
   "String for the `major-mode' part of the mode-line."
-  (s-replace "-mode" "" (format "%s" major-mode)))
+  (let ((mode-string (s-replace "-mode" "" (format "%s" major-mode))))
+    (if (and (boundp 'venv-auto-mode) venv-current)
+        (format "%s (%s)" mode-string venv-current)
+      mode-string)))
 
 (defun lml-major-mode ()
   "`Major-mode' part of the mode-line"
