@@ -1,11 +1,11 @@
 ;;; lowkey-mode-line.el --- Simple, lowkey mode-line replacement -*- lexical-binding: t; -*-
 
-;; Copyright (C) 2019 Jens Christian Jensen
+;; Copyright (C) 2021 Jens Christian Jensen
 
 ;; Author: Jens Christian Jensen <jensecj@gmail.com>
 ;; Version: 0.4.0
-;; Package-Version: 20190104
-;; Package-Requires: ((emacs "25.1") (dash "2.14.1") (s "1.12.0"))
+;; Package-Version: 20210730
+;; Package-Requires: ((emacs "28.0.0.50") (dash "2.14.1") (s "1.12.0"))
 ;; Keywords: mode-line
 
 ;; This program is free software; you can redistribute it and/or modify
