@@ -201,8 +201,8 @@ inactive."
 (defun lml-remote ()
   "String indicator for if the buffer is narrowed."
   (lml--mode-line-string
-   (if-let ((file (buffer-file-name))
-            (remote? (file-remote-p (buffer-file-name))))
+   (if (and (buffer-file-name)
+            (file-remote-p (buffer-file-name)))
        "<remote>"
      "")
    :face (lml--active-or-inactive-face
