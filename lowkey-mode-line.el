@@ -173,6 +173,16 @@ inactive."
 
     b))
 
+(defun lml-async-process-count ()
+  (let* ((regex (rx "*emacs*" (optional "<" digit ">")))
+         (bufs (buf-get-buffers-by-name regex))
+         (num (length bufs)))
+    (lml--mode-line-string
+     (if (> num 0) (format "[%s]" num) "")
+     :face (lml--active-or-inactive-face
+            'lml-buffer-face 'lml-buffer-face-inactive)
+     :pad-left 1)))
+
 (defun lml-buffer ()
   "`Buffer' part of the mode-line."
   (lml--mode-line-string
@@ -281,6 +291,7 @@ position."
   (setq-default
    mode-line-format
    '("%e"
+     (:eval (lml-async-process-count))
      (:eval (lml-buffer))
      (if (boundp 'spinner) spinner--mode-line-construct "")
      (:eval (lml-narrowed))
