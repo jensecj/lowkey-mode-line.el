@@ -208,6 +208,17 @@ inactive."
    :face (lml--active-or-inactive-face
           'lml-buffer-face 'lml-buffer-face-inactive)))
 
+(defun lml--position-default ()
+  (if (use-region-p)
+      (format "[%s]  %s  %s  |  %s  %s"
+              (- (region-end) (region-beginning))
+              "%l" ;; row
+              "%3c" ;; column
+              (point)
+              "(%p)" ;; percentage
+              )
+    (format "%s  %s  |  %s  %s"
+            "%l" "%3c" (point) "(%p)")))
 (defun lml--position-string ()
   "String for `position' part of the mode-line. If visition a
 `pdf'-buffer, and having `pdf-tools', use pdf pages as
